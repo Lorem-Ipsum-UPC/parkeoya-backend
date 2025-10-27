@@ -1,10 +1,12 @@
-package upc.edu.pe.parkeoya.backend.v1.parkingManagment.domain.model.commands;
+package upc.edu.pe.parkeoya.backend.v1.parkingManagement.interfaces.rest.resources;
 
-public record CreateParkingCommand(
+public record CreateParkingResource(
         Long ownerId,
         String name,
         String description,
         String address,
+        Double lat,
+        Double lng,
         Float ratePerHour,
         Integer totalSpots,
         Integer availableSpots,
