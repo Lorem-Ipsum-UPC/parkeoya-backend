@@ -2,6 +2,7 @@ package upc.edu.pe.parkeoya.backend.v1.profile.application.acl;
 
 
 
+import upc.edu.pe.parkeoya.backend.v1.profile.domain.model.aggregates.Driver;
 import upc.edu.pe.parkeoya.backend.v1.profile.domain.model.commands.CreateDriverCommand;
 import upc.edu.pe.parkeoya.backend.v1.profile.domain.model.commands.CreateParkingOwnerCommand;
 import upc.edu.pe.parkeoya.backend.v1.profile.domain.model.queries.GetDriverByUserIdAsyncQuery;
@@ -62,5 +63,12 @@ public class ProfileContextFacadeImpl implements ProfilesContextFacade {
         var query = new GetParkingOwnerByUserIdAsyncQuery(userId);
         var existingDistributor = parkingOwnerQueryService.handle(query);
         return existingDistributor.isPresent();
+    }
+
+    @Override
+    public String getDriverFullNameByUserId(Long userId) {
+        var query = new GetDriverByUserIdAsyncQuery(userId);
+        var driver = driverQueryService.handle(query);
+        return driver.map(Driver::getFullName).orElse(null);
     }
 }
