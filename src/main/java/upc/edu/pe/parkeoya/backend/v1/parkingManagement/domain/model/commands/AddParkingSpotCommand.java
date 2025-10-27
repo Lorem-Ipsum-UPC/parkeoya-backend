@@ -1,4 +1,4 @@
-package upc.edu.pe.parkeoya.backend.v1.parkingManagment.domain.model.commands;
+package upc.edu.pe.parkeoya.backend.v1.parkingManagement.domain.model.commands;
 
 public record AddParkingSpotCommand(
         Integer row,
