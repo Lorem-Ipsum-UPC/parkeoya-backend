@@ -1,9 +1,10 @@
-package upc.edu.pe.parkeoya.backend.v1.parkingManagment.domain.model.valueobjects;
+package upc.edu.pe.parkeoya.backend.v1.parkingManagement.domain.model.valueobjects;
 
-import upc.edu.pe.parkeoya.backend.v1.parkingManagment.domain.model.aggregates.Parking;
-import upc.edu.pe.parkeoya.backend.v1.parkingManagment.domain.model.entities.ParkingSpot;
+import upc.edu.pe.parkeoya.backend.v1.parkingManagement.domain.model.aggregates.Parking;
+import upc.edu.pe.parkeoya.backend.v1.parkingManagement.domain.model.entities.ParkingSpot;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Embeddable;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.OneToMany;
 import lombok.Getter;
 
@@ -15,16 +16,17 @@ import java.util.UUID;
 @Getter
 public class SpotManager {
 
-    @OneToMany(mappedBy = "parking", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "parking", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private List<ParkingSpot> parkingSpots;
 
     public SpotManager() {
         this.parkingSpots = new ArrayList<>();
     }
 
-    public void addParkingSpot(Parking parking, Integer row, Integer column, String label) {
+    public ParkingSpot addParkingSpot(Parking parking, Integer row, Integer column, String label) {
         ParkingSpot parkingSpot = new ParkingSpot(parking, row, column, label);
         this.parkingSpots.add(parkingSpot);
+        return parkingSpot;
     }
 
     public void removeParkingSpot(UUID parkingSpotId) {
