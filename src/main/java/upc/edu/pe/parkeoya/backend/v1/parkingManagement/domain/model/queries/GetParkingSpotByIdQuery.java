@@ -1,4 +1,4 @@
-package upc.edu.pe.parkeoya.backend.v1.parkingManagment.domain.model.queries;
+package upc.edu.pe.parkeoya.backend.v1.parkingManagement.domain.model.queries;
 
 import java.util.UUID;
 
