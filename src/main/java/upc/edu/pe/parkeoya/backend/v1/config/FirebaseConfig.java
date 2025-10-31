@@ -3,6 +3,10 @@ package upc.edu.pe.parkeoya.backend.v1.config;
 import com.google.auth.oauth2.GoogleCredentials;
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.FirebaseOptions;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Configuration;
 
 import javax.annotation.PostConstruct;
@@ -10,7 +14,15 @@ import java.io.ByteArrayInputStream;
 import java.util.Base64;
 
 @Configuration
+@ConditionalOnProperty(prefix = "firebase", name = "enabled", havingValue = "true", matchIfMissing = false)//Quitar en produccion
 public class FirebaseConfig {
+
+    //Quitar en produccion
+    private final Log logger = LogFactory.getLog(this.getClass());
+
+    @Value("${FIREBASE_ADMIN_CONFIG:}")
+    private String firebaseAdminConfig;
+    //Bloque a retirar
 
     @PostConstruct
     public void initializeFirebase() {

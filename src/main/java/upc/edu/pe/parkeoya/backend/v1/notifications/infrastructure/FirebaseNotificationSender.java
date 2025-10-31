@@ -3,11 +3,13 @@ package upc.edu.pe.parkeoya.backend.v1.notifications.infrastructure;
 import com.google.firebase.messaging.FirebaseMessaging;
 import com.google.firebase.messaging.Message;
 import com.google.firebase.messaging.Notification;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import upc.edu.pe.parkeoya.backend.v1.notifications.domain.model.NotificationMessage;
 import upc.edu.pe.parkeoya.backend.v1.notifications.domain.repository.NotificationRepository;
 import org.springframework.stereotype.Component;
 
 @Component
+@ConditionalOnProperty(prefix = "firebase", name = "enabled", havingValue = "true", matchIfMissing = false)
 public class FirebaseNotificationSender implements NotificationRepository {
 
     @Override

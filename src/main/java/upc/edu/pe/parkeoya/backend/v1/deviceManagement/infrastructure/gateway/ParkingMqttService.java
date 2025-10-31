@@ -2,6 +2,7 @@ package upc.edu.pe.parkeoya.backend.v1.deviceManagement.infrastructure.gateway;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import upc.edu.pe.parkeoya.backend.v1.deviceManagement.domain.model.aggregates.Device;
 import upc.edu.pe.parkeoya.backend.v1.deviceManagement.domain.model.aggregates.EdgeServer;
 import upc.edu.pe.parkeoya.backend.v1.deviceManagement.infrastructure.persistence.jpa.repositories.DeviceRepository;
@@ -24,6 +25,7 @@ import java.util.Optional;
 import java.util.UUID;
 
 @Service
+@ConditionalOnProperty(prefix = "mqtt", name = "enabled", havingValue = "true", matchIfMissing = false)//Quitar en produccion
 public class ParkingMqttService {
     private final MessageChannel mqttOutboundChannel;
     private final ObjectMapper objectMapper;

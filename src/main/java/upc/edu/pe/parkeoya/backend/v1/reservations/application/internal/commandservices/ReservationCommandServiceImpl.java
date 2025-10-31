@@ -23,11 +23,11 @@ public class ReservationCommandServiceImpl implements ReservationCommandService 
     private final ReservationRepository reservationRepository;
     private final ExternalParkingService externalParkingService;
     private final ExternalProfileService externalProfileServiceReservation;
-    private final ParkingMqttService parkingMqttService;
+    private final Optional<ParkingMqttService> parkingMqttService;
     private final NotificationService notificationService;
     private final FcmTokenRepository fcmTokenRepository;
 
-    public ReservationCommandServiceImpl(ReservationRepository reservationRepository, ExternalParkingService externalParkingService, ExternalProfileService externalProfileServiceReservation, ParkingMqttService parkingMqttService,
+    public ReservationCommandServiceImpl(ReservationRepository reservationRepository, ExternalParkingService externalParkingService, ExternalProfileService externalProfileServiceReservation, Optional<ParkingMqttService> parkingMqttService,
                                           NotificationService notificationService, FcmTokenRepository fcmTokenRepository) {
         this.reservationRepository = reservationRepository;
         this.externalParkingService = externalParkingService;
@@ -61,7 +61,14 @@ public class ReservationCommandServiceImpl implements ReservationCommandService 
             );
         }
 
-        parkingMqttService.reserveSpot(String.valueOf(command.parkingSpotId()), true);
+        // Solo enviar mensaje MQTT si el servicio está disponible
+        parkingMqttService.ifPresent(mqtt -> {
+            try {
+                mqtt.reserveSpot(String.valueOf(command.parkingSpotId()), true);
+            } catch (IOException e) {
+                System.err.println("Error al enviar mensaje MQTT: " + e.getMessage());
+            }
+        });
         return Optional.of(savedReservation);
     }
 
@@ -73,10 +80,24 @@ public class ReservationCommandServiceImpl implements ReservationCommandService 
         var spotId = UUID.fromString(reservation.getParkingSpotId());
         var updatedReservation = reservationRepository.save(reservation);
         if (command.status().equalsIgnoreCase("CONFIRMED")) {
-            parkingMqttService.reserveSpot(String.valueOf(reservation.getParkingSpotId()), false);
+            // Solo enviar mensaje MQTT si el servicio está disponible
+            parkingMqttService.ifPresent(mqtt -> {
+                try {
+                    mqtt.reserveSpot(String.valueOf(reservation.getParkingSpotId()), false);
+                } catch (IOException e) {
+                    System.err.println("Error al enviar mensaje MQTT: " + e.getMessage());
+                }
+            });
         } else if (command.status().equalsIgnoreCase("CANCELED")) {
             externalParkingService.updateParkingSpotAvailability(reservation.getParkingId(), spotId, "AVAILABLE");
-            parkingMqttService.reserveSpot(String.valueOf(reservation.getParkingSpotId()), false);
+            // Solo enviar mensaje MQTT si el servicio está disponible
+            parkingMqttService.ifPresent(mqtt -> {
+                try {
+                    mqtt.reserveSpot(String.valueOf(reservation.getParkingSpotId()), false);
+                } catch (IOException e) {
+                    System.err.println("Error al enviar mensaje MQTT: " + e.getMessage());
+                }
+            });
             //externalParkingService.updateAvailableSpotsCount(reservation.getParkingId(), 1, "add");
         } else if (command.status().equalsIgnoreCase("COMPLETED")) {
             externalParkingService.updateParkingSpotAvailability(reservation.getParkingId(), spotId, "AVAILABLE");
