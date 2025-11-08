@@ -101,7 +101,9 @@ public class WebSecurityConfiguration {
                                 "/swagger-ui/**",
                                 "/api/notifications/send",
                                 "/swagger-resources/**",
-                                "/webjars/**").permitAll()
+                                "/webjars/**",
+                                "/actuator/**",
+                                "/actuator/health/**").permitAll()
                         .anyRequest().authenticated());
         http.authenticationProvider(authenticationProvider());
         http.addFilterBefore(authorizationRequestFilter(), UsernamePasswordAuthenticationFilter.class);
