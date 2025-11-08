@@ -10,14 +10,26 @@ public class CreateParkingCommandFromResourceAssembler {
                 resource.name(),
                 resource.description(),
                 resource.address(),
+                resource.city(),
+                resource.province(),
+                resource.postalCode(),
                 resource.lat(),
                 resource.lng(),
                 resource.ratePerHour(),
+                resource.dailyRate(),
+                resource.monthlyRate(),
                 resource.totalSpots(),
+                resource.regularSpots(),
+                resource.disabledSpots(),
+                resource.electricSpots(),
                 resource.availableSpots(),
                 resource.totalRows(),
                 resource.totalColumns(),
-                resource.imageUrl()
+                resource.imageUrl(),
+                resource.operatingDays(),
+                resource.open24Hours(),
+                resource.openingTime(),
+                resource.closingTime()
         );
     }
 }
