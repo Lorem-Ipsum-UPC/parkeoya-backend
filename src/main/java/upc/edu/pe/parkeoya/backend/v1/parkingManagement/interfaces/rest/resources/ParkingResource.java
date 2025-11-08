@@ -6,15 +6,27 @@ public record ParkingResource(
         String name,
         String description,
         String address,
+        String city,
+        String province,
+        String postalCode,
         Double lat,
         Double lng,
         Float ratePerHour,
+        Float dailyRate,
+        Float monthlyRate,
         Float rating,
         Float ratingCount,
         Integer totalSpots,
+        Integer regularSpots,
+        Integer disabledSpots,
+        Integer electricSpots,
         Integer availableSpots,
         Integer totalRows,
         Integer totalColumns,
-        String imageUrl
+        String imageUrl,
+        String operatingDays,
+        Boolean open24Hours,
+        String openingTime,
+        String closingTime
 ) {
 }

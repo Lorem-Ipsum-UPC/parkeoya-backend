@@ -34,17 +34,32 @@ public class Parking extends AuditableAbstractAggregateRoot<Parking> {
     private String address;
 
     @Getter
-    @NotNull
+    private String city;
+
+    @Getter
+    private String province;
+
+    @Getter
+    private String postalCode;
+
+    @Getter
     private Double lat;
 
     @Getter
-    @NotNull
     private Double lng;
 
     @Getter
     @Setter
     @NotNull
     private Float ratePerHour;
+
+    @Getter
+    @Setter
+    private Float dailyRate;
+
+    @Getter
+    @Setter
+    private Float monthlyRate;
 
     @Getter
     @Setter
@@ -64,23 +79,48 @@ public class Parking extends AuditableAbstractAggregateRoot<Parking> {
 
     @Getter
     @Setter
+    private Integer regularSpots;
+
+    @Getter
+    @Setter
+    private Integer disabledSpots;
+
+    @Getter
+    @Setter
+    private Integer electricSpots;
+
+    @Getter
+    @Setter
     @NotNull
     private Integer availableSpots;
 
     @Getter
     @Setter
-    @NotNull
     private Integer totalRows;
 
     @Getter
     @Setter
-    @NotNull
     private Integer totalColumns;
 
     @Getter
     @Setter
-    @NotNull
     private String imageUrl;
+
+    @Getter
+    @Setter
+    private String operatingDays;
+
+    @Getter
+    @Setter
+    private Boolean open24Hours;
+
+    @Getter
+    @Setter
+    private String openingTime;
+
+    @Getter
+    @Setter
+    private String closingTime;
 
     @Embedded
     private SpotManager parkingSpotManager;
@@ -92,17 +132,29 @@ public class Parking extends AuditableAbstractAggregateRoot<Parking> {
         this.name = command.name();
         this.description = command.description();
         this.address = command.address();
+        this.city = command.city();
+        this.province = command.province();
+        this.postalCode = command.postalCode();
         this.lat = command.lat();
         this.lng = command.lng();
         this.ratePerHour = command.ratePerHour();
+        this.dailyRate = command.dailyRate();
+        this.monthlyRate = command.monthlyRate();
         this.rating = 0f;
         this.ratingCount = 0f;
         this.averageRating = 0f;
         this.totalSpots = command.totalSpots();
+        this.regularSpots = command.regularSpots();
+        this.disabledSpots = command.disabledSpots();
+        this.electricSpots = command.electricSpots();
         this.availableSpots = command.availableSpots();
         this.totalRows = command.totalRows();
         this.totalColumns = command.totalColumns();
         this.imageUrl = command.imageUrl();
+        this.operatingDays = command.operatingDays();
+        this.open24Hours = command.open24Hours();
+        this.openingTime = command.openingTime();
+        this.closingTime = command.closingTime();
         this.parkingSpotManager = new SpotManager();
     }
 

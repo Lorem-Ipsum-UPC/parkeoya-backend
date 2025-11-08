@@ -11,16 +11,28 @@ public class ParkingResourceFromEntityAssembler {
                 entity.getName(),
                 entity.getDescription(),
                 entity.getAddress(),
+                entity.getCity(),
+                entity.getProvince(),
+                entity.getPostalCode(),
                 entity.getLat(),
                 entity.getLng(),
                 entity.getRatePerHour(),
+                entity.getDailyRate(),
+                entity.getMonthlyRate(),
                 entity.getAverageRating(),
                 entity.getRatingCount(),
                 entity.getTotalSpots(),
+                entity.getRegularSpots(),
+                entity.getDisabledSpots(),
+                entity.getElectricSpots(),
                 entity.getAvailableSpots(),
                 entity.getTotalRows(),
                 entity.getTotalColumns(),
-                entity.getImageUrl()
+                entity.getImageUrl(),
+                entity.getOperatingDays(),
+                entity.getOpen24Hours(),
+                entity.getOpeningTime(),
+                entity.getClosingTime()
         );
     }
 }
