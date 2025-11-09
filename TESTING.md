@@ -89,6 +89,12 @@ El frontend puede obtener:
 
 ## 🐳 Deploy con Docker
 
+### Variables de Entorno Requeridas:
+```bash
+DB_USERNAME=avnadmin
+DB_PASSWORD=tu_password_de_aiven
+```
+
 ### Construir y subir imagen a Docker Hub:
 ```bash
 # Asegúrate que Docker Desktop está corriendo
@@ -101,6 +107,8 @@ docker pull juancali/parkeoya-backend:latest
 
 docker run -d -p 8080:8080 \
   -e SPRING_PROFILES_ACTIVE=prod \
+  -e DB_USERNAME=avnadmin \
+  -e DB_PASSWORD=tu_password \
   --name parkeoya-backend \
   juancali/parkeoya-backend:latest
 ```
