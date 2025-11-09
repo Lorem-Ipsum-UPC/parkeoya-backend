@@ -156,6 +156,22 @@ public class Parking extends AuditableAbstractAggregateRoot<Parking> {
         this.openingTime = command.openingTime();
         this.closingTime = command.closingTime();
         this.parkingSpotManager = new SpotManager();
+        this.initializeParkingSpots();
+    }
+
+    /**
+     * Initializes parking spots automatically based on totalRows and totalColumns.
+     * Creates spots with labels like A1, A2, B1, B2, etc.
+     */
+    private void initializeParkingSpots() {
+        if (this.totalRows != null && this.totalColumns != null && this.totalRows > 0 && this.totalColumns > 0) {
+            for (int row = 1; row <= this.totalRows; row++) {
+                for (int col = 1; col <= this.totalColumns; col++) {
+                    String label = String.format("%c%d", (char)('A' + row - 1), col);
+                    this.parkingSpotManager.addParkingSpot(this, row, col, label);
+                }
+            }
+        }
     }
 
     public void setRating(Float rating) {
