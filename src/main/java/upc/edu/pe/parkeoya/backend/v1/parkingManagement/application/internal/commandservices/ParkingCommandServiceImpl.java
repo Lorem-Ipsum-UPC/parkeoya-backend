@@ -96,4 +96,34 @@ public class ParkingCommandServiceImpl implements ParkingCommandService {
 
         return Optional.of("Parking rating updated to " + updatedParking.getRating());
     }
+
+    @Override
+    public Optional<Parking> handle(UpdateParkingCommand command) {
+        var parking = this.parkingRepository.findById(command.parkingId())
+                .orElseThrow(() -> new IllegalArgumentException("Parking not found"));
+
+        if (command.name() != null) parking.setName(command.name());
+        if (command.description() != null) parking.setDescription(command.description());
+        if (command.address() != null) parking.setAddress(command.address());
+        if (command.city() != null) parking.setCity(command.city());
+        if (command.province() != null) parking.setProvince(command.province());
+        if (command.postalCode() != null) parking.setPostalCode(command.postalCode());
+        if (command.lat() != null) parking.setLat(command.lat());
+        if (command.lng() != null) parking.setLng(command.lng());
+        if (command.ratePerHour() != null) parking.setRatePerHour(command.ratePerHour());
+        if (command.dailyRate() != null) parking.setDailyRate(command.dailyRate());
+        if (command.monthlyRate() != null) parking.setMonthlyRate(command.monthlyRate());
+        if (command.open24hours() != null) parking.setOpen24Hours(command.open24hours());
+        if (command.openingTime() != null) parking.setOpeningTime(command.openingTime());
+        if (command.closingTime() != null) parking.setClosingTime(command.closingTime());
+        if (command.operatingDays() != null) parking.setOperatingDays(command.operatingDays());
+        if (command.imageUrl() != null) parking.setImageUrl(command.imageUrl());
+        if (command.totalSpots() != null) parking.setTotalSpots(command.totalSpots());
+        if (command.regularSpots() != null) parking.setRegularSpots(command.regularSpots());
+        if (command.disabledSpots() != null) parking.setDisabledSpots(command.disabledSpots());
+        if (command.electricSpots() != null) parking.setElectricSpots(command.electricSpots());
+
+        var updated = parkingRepository.save(parking);
+        return Optional.of(updated);
+    }
 }

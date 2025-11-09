@@ -22,30 +22,38 @@ public class Parking extends AuditableAbstractAggregateRoot<Parking> {
     private OwnerId ownerId;
 
     @Getter
+    @Setter
     @NotNull
     private String name;
 
     @Getter
+    @Setter
     @NotNull
     private String description;
 
     @Getter
+    @Setter
     @NotNull
     private String address;
 
     @Getter
+    @Setter
     private String city;
 
     @Getter
+    @Setter
     private String province;
 
     @Getter
+    @Setter
     private String postalCode;
 
     @Getter
+    @Setter
     private Double lat;
 
     @Getter
+    @Setter
     private Double lng;
 
     @Getter

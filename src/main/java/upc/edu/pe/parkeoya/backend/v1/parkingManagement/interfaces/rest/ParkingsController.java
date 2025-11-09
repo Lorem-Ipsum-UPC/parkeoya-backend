@@ -16,6 +16,8 @@ import upc.edu.pe.parkeoya.backend.v1.parkingManagement.interfaces.rest.transfor
 import upc.edu.pe.parkeoya.backend.v1.parkingManagement.interfaces.rest.transform.CreateParkingCommandFromResourceAssembler;
 import upc.edu.pe.parkeoya.backend.v1.parkingManagement.interfaces.rest.transform.ParkingResourceFromEntityAssembler;
 import upc.edu.pe.parkeoya.backend.v1.parkingManagement.interfaces.rest.transform.ParkingSpotResourceFromEntityAssembler;
+import upc.edu.pe.parkeoya.backend.v1.parkingManagement.interfaces.rest.resources.UpdateParkingResource;
+import upc.edu.pe.parkeoya.backend.v1.parkingManagement.interfaces.rest.transform.UpdateParkingCommandFromResourceAssembler;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
@@ -142,4 +144,21 @@ public class ParkingsController {
         var parkingResources = parkingList.stream().map(ParkingResourceFromEntityAssembler::toResourceFromEntity).toList();
         return ResponseEntity.ok(parkingResources);
     }
+
+        @Operation(summary = "Update a parking")
+        @ApiResponses(value = {
+                        @ApiResponse(responseCode = "200", description = "Parking updated successfully"),
+                        @ApiResponse(responseCode = "404", description = "Parking not found"),
+                        @ApiResponse(responseCode = "400", description = "Invalid request data")
+        })
+        @PatchMapping("/{parkingId}")
+        public ResponseEntity<ParkingResource> updateParking(@PathVariable Long parkingId,
+                                                                                                                 @RequestBody UpdateParkingResource resource) {
+
+                var command = UpdateParkingCommandFromResourceAssembler.toCommandFromResource(resource, parkingId);
+                Optional<Parking> updated = this.parkingCommandService.handle(command);
+
+                return updated.map(p -> ResponseEntity.ok(ParkingResourceFromEntityAssembler.toResourceFromEntity(p)))
+                                .orElseGet(() -> ResponseEntity.notFound().build());
+        }
 }
