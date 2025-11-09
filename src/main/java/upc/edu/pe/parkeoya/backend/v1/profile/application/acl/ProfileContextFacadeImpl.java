@@ -71,4 +71,10 @@ public class ProfileContextFacadeImpl implements ProfilesContextFacade {
         var driver = driverQueryService.handle(query);
         return driver.map(Driver::getFullName).orElse(null);
     }
+
+    @Override
+    public String getDriverFullNameByDriverId(Long driverId) {
+        var driver = driverQueryService.findById(driverId);
+        return driver.map(Driver::getFullName).orElse(null);
+    }
 }

@@ -13,4 +13,5 @@ import java.util.Optional;
 public interface DriverQueryService {
     Optional<Driver> handle(GetDriverByUserIdAsyncQuery query);
     Optional<String> handle(GetDriverFullNameByUserIdQuery query);
+    Optional<Driver> findById(Long driverId);
 }

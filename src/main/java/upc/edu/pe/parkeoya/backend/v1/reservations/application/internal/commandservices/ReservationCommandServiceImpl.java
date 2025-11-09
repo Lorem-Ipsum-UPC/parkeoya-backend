@@ -39,7 +39,7 @@ public class ReservationCommandServiceImpl implements ReservationCommandService 
 
     @Override
     public Optional<Reservation> handle(CreateReservationCommand command) throws IOException {
-        var driverFullName = externalProfileServiceReservation.getDriverFullNameByUserId(command.driverId());
+        var driverFullName = externalProfileServiceReservation.getDriverFullNameByDriverId(command.driverId());
         var parkingSpotLabel = externalParkingService.getSpotLabel(command.parkingSpotId(), command.parkingId());
         var parkingRatePerHour = externalParkingService.getParkingRatePerHour(command.parkingId());
         if (parkingRatePerHour == null) {

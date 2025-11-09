@@ -28,4 +28,9 @@ public class DriverQueryServiceImpl implements DriverQueryService {
         var driver = driverRepository.findDriverByUserId(query.userId());
         return driver.map(Driver::getFullName);
     }
+
+    @Override
+    public Optional<Driver> findById(Long driverId) {
+        return driverRepository.findById(driverId);
+    }
 }

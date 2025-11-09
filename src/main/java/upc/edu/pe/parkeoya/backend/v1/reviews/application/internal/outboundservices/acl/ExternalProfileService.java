@@ -14,4 +14,8 @@ public class ExternalProfileService {
     public String getDriverFullNameByUserId(Long userId) {
         return this.profilesContextFacade.getDriverFullNameByUserId(userId);
     }
+
+    public String getDriverFullNameByDriverId(Long driverId) {
+        return this.profilesContextFacade.getDriverFullNameByDriverId(driverId);
+    }
 }

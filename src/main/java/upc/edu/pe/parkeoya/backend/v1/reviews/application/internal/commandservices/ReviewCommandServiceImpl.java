@@ -24,7 +24,7 @@ public class ReviewCommandServiceImpl implements ReviewCommandService {
 
     @Override
     public Optional<Review> handle(CreateReviewCommand command) {
-        var driverName = externalProfileService.getDriverFullNameByUserId(command.driverId());
+        var driverName = externalProfileService.getDriverFullNameByDriverId(command.driverId());
         if (driverName == null) {
             return Optional.empty();
         }

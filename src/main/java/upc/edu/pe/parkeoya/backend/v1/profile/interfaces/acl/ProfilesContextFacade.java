@@ -14,4 +14,6 @@ public interface ProfilesContextFacade {
     boolean exitsParkingOwnerByUserId(Long userId);
 
     String getDriverFullNameByUserId(Long userId);
+
+    String getDriverFullNameByDriverId(Long driverId);
 }
