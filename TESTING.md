@@ -87,13 +87,33 @@ El frontend puede obtener:
 └─────────────────────────────────────────┘
 ```
 
-## 🛠️ Archivos del Proyecto
+## 🐳 Deploy con Docker
+
+### Construir y subir imagen a Docker Hub:
+```bash
+# Asegúrate que Docker Desktop está corriendo
+bash docker-deploy.sh juancali
+```
+
+### Ejecutar con Docker:
+```bash
+docker pull juancali/parkeoya-backend:latest
+
+docker run -d -p 8080:8080 \
+  -e SPRING_PROFILES_ACTIVE=prod \
+  --name parkeoya-backend \
+  juancali/parkeoya-backend:latest
+```
+
+## �🛠️ Archivos del Proyecto
 
 - `test-sistema-completo-prod.sh` - Script de pruebas automatizado
+- `docker-deploy.sh` - Script para build y push a Docker Hub
 - `README.md` - Documentación principal
 - `application-prod.properties` - Configuración de producción
 
 ---
 
 **Última actualización:** 2025-11-09  
-**Estado:** ✅ Sistema funcionando en producción
+**Estado:** ✅ Sistema funcionando en producción  
+**Docker Hub:** loremipsumupc/parkeoya-backend
