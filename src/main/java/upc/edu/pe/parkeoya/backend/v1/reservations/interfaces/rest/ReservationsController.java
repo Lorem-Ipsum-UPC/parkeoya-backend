@@ -2,6 +2,7 @@ package upc.edu.pe.parkeoya.backend.v1.reservations.interfaces.rest;
 
 import upc.edu.pe.parkeoya.backend.v1.reservations.domain.model.aggregates.Reservation;
 import upc.edu.pe.parkeoya.backend.v1.reservations.domain.model.queries.GetAllReservationsByDriverIdAndStatusQuery;
+import upc.edu.pe.parkeoya.backend.v1.reservations.domain.model.queries.GetAllReservationsByParkingIdAndStatusQuery;
 import upc.edu.pe.parkeoya.backend.v1.reservations.domain.model.queries.GetAllReservationsByParkingIdQuery;
 import upc.edu.pe.parkeoya.backend.v1.reservations.domain.services.ReservationCommandService;
 import upc.edu.pe.parkeoya.backend.v1.reservations.domain.services.ReservationQueryService;
@@ -80,6 +81,27 @@ public class ReservationsController {
     public ResponseEntity<List<ReservationResource>> getReservationsByDriverIdAndStatus(
             @PathVariable Long driverId, @PathVariable String status) {
         var query = new GetAllReservationsByDriverIdAndStatusQuery(driverId, status);
+        List<Reservation> reservations = this.reservationQueryService.handle(query);
+
+        if (reservations.isEmpty()) {
+            return ResponseEntity.notFound().build();
+        }
+
+        List<ReservationResource> resources = reservations.stream()
+                .map(ReservationResourceFromEntityAssembler::toResourceFromEntity)
+                .toList();
+        return ResponseEntity.ok(resources);
+    }
+
+    @Operation(summary = "Get all reservations by parking id and status")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Reservations retrieved successfully"),
+            @ApiResponse(responseCode = "404", description = "No reservations found")
+    })
+    @GetMapping("/parking/{parkingId}/status/{status}")
+    public ResponseEntity<List<ReservationResource>> getReservationsByParkingIdAndStatus(
+            @PathVariable Long parkingId, @PathVariable String status) {
+        var query = new GetAllReservationsByParkingIdAndStatusQuery(parkingId, status);
         List<Reservation> reservations = this.reservationQueryService.handle(query);
 
         if (reservations.isEmpty()) {

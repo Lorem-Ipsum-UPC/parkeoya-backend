@@ -3,6 +3,7 @@ package upc.edu.pe.parkeoya.backend.v1.reservations.application.internal.queryse
 import upc.edu.pe.parkeoya.backend.v1.reservations.domain.model.aggregates.Reservation;
 import upc.edu.pe.parkeoya.backend.v1.reservations.domain.model.queries.GetAllReservationsByDriverIdAndStatusQuery;
 import upc.edu.pe.parkeoya.backend.v1.reservations.domain.model.queries.GetAllReservationsByDriverIdQuery;
+import upc.edu.pe.parkeoya.backend.v1.reservations.domain.model.queries.GetAllReservationsByParkingIdAndStatusQuery;
 import upc.edu.pe.parkeoya.backend.v1.reservations.domain.model.queries.GetAllReservationsByParkingIdQuery;
 import upc.edu.pe.parkeoya.backend.v1.reservations.domain.model.valueobjects.ReservationStatus;
 import upc.edu.pe.parkeoya.backend.v1.reservations.domain.services.ReservationQueryService;
@@ -33,5 +34,11 @@ public class ReservationQueryServiceImpl implements ReservationQueryService {
     public List<Reservation> handle(GetAllReservationsByDriverIdAndStatusQuery query) {
         var reservationStatus = ReservationStatus.valueOf(query.status());
         return reservationRepository.findReservationsByDriverIdDriverIdAndStatus(query.driverId(), reservationStatus);
+    }
+
+    @Override
+    public List<Reservation> handle(GetAllReservationsByParkingIdAndStatusQuery query) {
+        var reservationStatus = ReservationStatus.valueOf(query.status());
+        return reservationRepository.findReservationsByParkingIdParkingIdAndStatus(query.parkingId(), reservationStatus);
     }
 }
