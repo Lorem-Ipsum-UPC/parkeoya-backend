@@ -40,6 +40,25 @@ public class BearerAuthorizationRequestFilter extends OncePerRequestFilter {
     }
 
     /**
+     * Skip JWT filter for public endpoints that don't require authentication.
+     * This prevents the filter from running on public routes like sign-up and sign-in.
+     * 
+     * @param request The HTTP request
+     * @return true if the filter should NOT be applied to this request
+     */
+    @Override
+    protected boolean shouldNotFilter(HttpServletRequest request) {
+        String path = request.getRequestURI();
+        return path.startsWith("/api/v1/authentication/") ||
+               path.startsWith("/api/v1/roles/") ||
+               path.startsWith("/v3/api-docs/") ||
+               path.startsWith("/swagger-ui") ||
+               path.startsWith("/swagger-resources/") ||
+               path.startsWith("/webjars/") ||
+               path.equals("/api/notifications/send");
+    }
+
+    /**
      * This method is responsible for filtering requests and setting the user authentication.
      * @param request The request object.
      * @param response The response object.
