@@ -28,10 +28,41 @@ public class ParkingCommandServiceImpl implements ParkingCommandService {
     @Override
     public Optional<Parking> handle(CreateParkingCommand command) {
         var parking = new Parking(command);
+        
+        // Auto-generate parking spots based on totalRows and totalColumns
+        if (command.totalRows() != null && command.totalColumns() != null && 
+            command.totalRows() > 0 && command.totalColumns() > 0) {
+            
+            int spotCounter = 1;
+            for (int row = 1; row <= command.totalRows(); row++) {
+                for (int col = 1; col <= command.totalColumns(); col++) {
+                    String label = String.valueOf(spotCounter);
+                    parking.addParkingSpot(new AddParkingSpotCommand(row, col, label, parking.getId()));
+                    spotCounter++;
+                }
+            }
+        }
+        
         var createdParking = parkingRepository.save(parking);
+        
         // Create Edge Server for the parking
         EdgeServer edgeServer = new EdgeServer(createdParking.getId());
         edgeServerRepository.save(edgeServer);
+        
+        // Create devices for each auto-generated spot
+        var spots = createdParking.getParkingSpots();
+        if (!spots.isEmpty()) {
+            for (var spot : spots) {
+                externalDeviceService.createDevice(
+                    createdParking.getId(), 
+                    spot.getId(), 
+                    spot.getStatus(), 
+                    spot.getLabel(), 
+                    edgeServer.getServerId()
+                );
+            }
+        }
+        
         return Optional.of(createdParking);
     }
 
