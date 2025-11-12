@@ -112,7 +112,7 @@ public class Parking extends AuditableAbstractAggregateRoot<Parking> {
 
     @Getter
     @Setter
-    private String imageUrl;
+    private String imageUrl = "";
 
     @Getter
     @Setter
@@ -158,7 +158,7 @@ public class Parking extends AuditableAbstractAggregateRoot<Parking> {
         this.availableSpots = command.availableSpots();
         this.totalRows = command.totalRows();
         this.totalColumns = command.totalColumns();
-        this.imageUrl = command.imageUrl();
+        this.imageUrl = command.imageUrl() != null ? command.imageUrl() : "";
         this.operatingDays = command.operatingDays();
         this.open24Hours = command.open24Hours();
         this.openingTime = command.openingTime();
