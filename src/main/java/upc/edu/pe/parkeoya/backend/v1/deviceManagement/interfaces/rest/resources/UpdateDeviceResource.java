@@ -3,6 +3,7 @@ package upc.edu.pe.parkeoya.backend.v1.deviceManagement.interfaces.rest.resource
 public record UpdateDeviceResource(
         String edgeId,
         String macAddress,
-        String type
+        String type,
+        String spotStatus
 ) {
 }

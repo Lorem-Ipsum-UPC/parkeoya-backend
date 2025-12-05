@@ -11,7 +11,8 @@ public class UpdateDeviceCommandFromResourceAssembler {
                 deviceId,
                 resource.edgeId(),
                 resource.macAddress(),
-                resource.type()
+                resource.type(),
+                resource.spotStatus()
         );
     }
 }

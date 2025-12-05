@@ -6,6 +6,7 @@ public record UpdateDeviceCommand(
         UUID deviceId,
         String edgeServerId,
         String macAddress,
-        String type
+        String type,
+        String spotStatus
 ) {
 }

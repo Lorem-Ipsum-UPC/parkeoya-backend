@@ -84,9 +84,11 @@ public class WebSecurityConfiguration {
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http.cors(configurer -> configurer.configurationSource(request  -> {
             var cors = new CorsConfiguration();
-            cors.setAllowedOrigins(List.of("*"));
-            cors.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "PATCH"));
+            cors.setAllowedOriginPatterns(List.of("*")); // Permite cualquier origen con credenciales
+            cors.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"));
             cors.setAllowedHeaders(List.of("*"));
+            cors.setAllowCredentials(true); // Permite credenciales (tokens de autorización)
+            cors.setMaxAge(3600L); // Cache preflight por 1 hora
             return cors;
         }));
         http.csrf(csrfConfigurer -> csrfConfigurer.disable())

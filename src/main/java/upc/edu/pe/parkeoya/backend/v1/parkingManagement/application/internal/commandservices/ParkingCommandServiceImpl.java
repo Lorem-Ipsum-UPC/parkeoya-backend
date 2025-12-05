@@ -86,18 +86,35 @@ public class ParkingCommandServiceImpl implements ParkingCommandService {
 
     @Override
     public Optional<String> handle(UpdateParkingSpotAvailabilityCommand command) {
+        System.out.println("\n========================================");
+        System.out.println("🔄 ACTUALIZANDO PARKING SPOT");
+        System.out.println("ParkingId: " + command.parkingId());
+        System.out.println("ParkingSpotId: " + command.parkingSpotId());
+        System.out.println("Nuevo estado: " + command.availability());
+        System.out.println("========================================\n");
+        
         var parking = this.parkingRepository.findById(command.parkingId())
                 .orElseThrow(() -> new IllegalArgumentException("Parking not found"));
 
+        System.out.println("✅ Parking encontrado: " + parking.getName());
+        
         var parkingSpot = parking.getParkingSpot(command.parkingSpotId());
 
         if (parkingSpot == null) {
+            System.out.println("❌ ERROR: Parking spot NO encontrado");
             throw new IllegalArgumentException("Parking spot not found");
         }
 
+        System.out.println("✅ ParkingSpot encontrado - Label: " + parkingSpot.getLabel());
+        System.out.println("   Estado ANTES: " + parkingSpot.getStatus());
+        
         parkingSpot.updateStatus(command.availability());
+        
+        System.out.println("   Estado DESPUES: " + parkingSpot.getStatus());
 
-        parkingRepository.save(parking);
+        var savedParking = parkingRepository.save(parking);
+        System.out.println("✅ Parking guardado en BD");
+        System.out.println("========================================\n");
 
         return Optional.of("Parking spot with ID " + command.parkingSpotId() + " availability updated to " + command.availability());
     }

@@ -78,6 +78,9 @@ public class Device extends AuditableAbstractAggregateRoot<Device> {
         this.type = DeviceType.valueOf(command.type());
         this.operationalStatus = DeviceStatus.ONLINE;
         this.lastCommunication = LocalDateTime.now();
+        if (command.spotStatus() != null) {
+            this.spotStatus = SpotStatus.valueOf(command.spotStatus());
+        }
     }
 
     public Long getParkingId() { return parkingId.parkingId(); }
